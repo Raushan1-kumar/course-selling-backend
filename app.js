@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 
@@ -14,6 +16,7 @@ const userRoute = require('./routes/user');
 const courseRoute = require('./routes/courses');
 const studentRoute = require('./routes/student');
 const feeRoute  = require('./routes/fee');
+const paymentRoute = require('./routes/stripe')
 
 mongoose.connect('mongodb+srv://raushan:77799@cluster0.i5dsc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0').then(()=>{
   console.log("connected");
@@ -33,6 +36,8 @@ app.use('/user',userRoute);
 app.use('/course',courseRoute);
 app.use('/student',studentRoute);
 app.use('/fee',feeRoute);
+app.use('/payment',paymentRoute);
+
 
 app.use('*',(req,res)=>{
   res.status(404).json({

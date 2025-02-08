@@ -131,9 +131,10 @@ router.get('/total-amount', checkAuth, async (req, res) => {
 
         const totalAmount = await Fee.aggregate([
             { $match: { uId: verifiedData.uId } }, // Match records belonging to the current user
-            { $group: { _id: null, total: { $sum: "$amount" } } }, // Sum the `amount` field
-        ]);
+            { $group: { _id: null, total: { $sum: { $toDouble: "$amount" } } } }
 
+        ]);
+        console.log(totalAmount);
         res.status(200).json({
             totalAmount: totalAmount[0]?.total || 0, // Handle cases where no fees exist
         });
